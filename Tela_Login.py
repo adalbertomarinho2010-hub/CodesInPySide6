@@ -86,12 +86,15 @@ class FormularioLogin(QFrame):
         layout.addStretch()
         layout.addWidget(titulo)
         layout.addWidget(self.campo_usuario)
+        layout.addSpacing(18)
 
         layout.addWidget(subtitulo)
         layout.addWidget(self.campo_senha)
+        layout.addSpacing(8)
 
         layout.addWidget(self.mostrar_senha)
         layout.addWidget(self.botao_entrar)
+        layout.addSpacing(8)
 
     def _alterar_senha(self, marcado: bool) -> None:
         self.campo_senha.setEchoMode(
