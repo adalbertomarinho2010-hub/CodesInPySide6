@@ -4,6 +4,8 @@ from PySide6.QtWidgets import QApplication
 
 from app.estilos import ESTILO, Cores
 from app.Tela_Login import TelaLogin
+from app.Tela_Principal import TelaPrincipal
+from app.usuario import Usuario
 
 class Aplicacao:
 
@@ -12,6 +14,8 @@ class Aplicacao:
         self._configurar_tema()
 
         self.janela = TelaLogin()
+        self.janela_inicial: TelaPrincipal| None = None
+        self.janela.autenticado.connect(self.abrir_principal)
 
 
     def _configurar_tema(self) -> None:
@@ -22,6 +26,13 @@ class Aplicacao:
         paleta.setColor(QPalette.PlaceholderText,QColor(Cores.PLACEHOLDER))
         self._app.setPalette(paleta)
 
+    
+    def abrir_principal(self, usuario: Usuario) -> None:
+        self.janela_inicial = TelaPrincipal(usuario)
+        self.janela_inicial.show()
+        self.janela.close()
+    
     def executar(self) -> int:
         self.janela.show()
         return self._app.exec()
+    

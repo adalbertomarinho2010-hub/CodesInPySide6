@@ -13,8 +13,8 @@ QPushButton
 )
 
 from app import IMAGEM_LOGIN
-# AUTENTICATOR
-# USUARIO
+from app.autenticador import Autenticador, ErroAutenticacao
+from app.usuario import Usuario
 
 LARGURA = 760
 ALTURA = 420
@@ -43,7 +43,7 @@ class PainelImagem(QLabel):
 
 class FormularioLogin(QFrame):
     login_solicitado = Signal(str, str)
-    # senha_esquecida = Signal(Usuario)
+    senha_esquecida = Signal()
 
     def __init__(self,parent: QWidget | None = None):
         super().__init__(parent)
@@ -59,7 +59,7 @@ class FormularioLogin(QFrame):
         titulo.setObjectName("Titulo")
 
         subtitulo = QLabel("Entre com a sua conta para continuar")
-        titulo.setObjectName("Subtitulo")
+        subtitulo.setObjectName("Subtitulo")
 
         self.campo_usuario = QLineEdit()
         self.campo_usuario.setPlaceholderText("Usuário")
@@ -76,13 +76,14 @@ class FormularioLogin(QFrame):
         self.botao_entrar.setCursor(Qt.PointingHandCursor)
         self.botao_entrar.clicked.connect(self._emitir_login)
 
-        link_esqueci = QPushButton("Esqueci minha senha")
-        link_esqueci.setObjectName("LinkEsqueci")
-        link_esqueci.setCursor(Qt.PointingHandCursor)
+        self.link_esqueci = QPushButton("Esqueci minha senha")
+        self.link_esqueci.setObjectName("LinkEsqueci")
+        self.link_esqueci.setCursor(Qt.PointingHandCursor)
 
         self.campo_usuario.returnPressed.connect(self._emitir_login)
         self.campo_senha.returnPressed.connect(self._emitir_login)
 
+    
         layout.addStretch()
         layout.addWidget(titulo)
         layout.addWidget(self.campo_usuario)
@@ -96,22 +97,26 @@ class FormularioLogin(QFrame):
         layout.addWidget(self.botao_entrar)
         layout.addSpacing(8)
 
+        layout.addWidget(self.link_esqueci)
+
     def _alterar_senha(self, marcado: bool) -> None:
         self.campo_senha.setEchoMode(
             QLineEdit.Normal if marcado else QLineEdit.Password
         )
 
     def _emitir_login(self) -> None:
-        self.login_solicitado.emit(self.campo_usuario.text(), self.campo_senha())
+        self.login_solicitado.emit(self.campo_usuario.text(), self.campo_senha.text())
 
     def limpa_senha(self) -> None:
         self.campo_senha.clear()
         self.campo_senha.setFocus()
 
 class TelaLogin(QWidget):
-    autenticado = Signal()
-    def __init__(self):
+    autenticado = Signal(Usuario)
+    def __init__(self, autenticador: Autenticador | None = None):
         super().__init__()
+        self.autenticador = autenticador or Autenticador()
+
         self.setObjectName("Janela")
         self.setWindowTitle("Login")
         self.setFixedSize(LARGURA, ALTURA)
@@ -125,17 +130,24 @@ class TelaLogin(QWidget):
         layout.addWidget(self.painel_imagem, 1)
         layout.addWidget(self.formulario, 1)
 
-        #self.formulario.login_solicitado.connect(self._tentar_login)
-        #self.formulario.senha_esquecida.connect(self._Mostrar_ajuda_senha)
+        self.formulario.login_solicitado.connect(self._tentar_login)
+        self.formulario.senha_esquecida.connect(self._Mostrar_ajuda_senha)
 
-    # def _tentar_login(self, login:str, senha:str) -> None:
-    #     try:
-    #         usuario = self.autenticator.autenticar(login,senha)
-    #     except ErroAutenticacao as erro:
-    #         QMessageBox.warning(self, "Falha no Login", str(erro))
-    #         self.formulario.limpa_senha()
-    #         return
-    #     QMessageBox.information(
-    #         self, "Sucesso", f"Bem vindo," (usuario.nome_exibicao)
-    #     )
-    #     self.autenticado.emit(Usuario)
+    def _tentar_login(self, login:str, senha:str) -> None:
+        try:
+            usuario = self.autenticador.autenticar(login,senha)
+        except ErroAutenticacao as erro:
+            QMessageBox.warning(self, "Falha no Login", str(erro))
+            self.formulario.limpa_senha()
+            return
+        
+        QMessageBox.information(
+            self, "Sucesso", f"Bem vindo,{usuario.nome_exibicao}!"
+            )
+        
+        self.autenticado.emit(Usuario)
+
+    def _Mostrar_ajuda_senha(self) -> None:
+        QMessageBox.information(
+            self,"Recuperar senha","Entre em contato com o Administrador"
+        )

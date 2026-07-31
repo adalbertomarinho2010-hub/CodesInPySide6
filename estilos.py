@@ -1,13 +1,13 @@
 class Cores:
     FUNDO = "#392850"
-    CARTAO = "#f5f6fa"
-    TEXTO = "#51458a"
-    TEXTO_SECUNDARIO = "#657bd1"
-    PLACEHOLDER = "#adbaeb"
+    CARTAO = "#8471a8"
+    TEXTO = "#000000"
+    TEXTO_SECUNDARIO = "#000000"
+    PLACEHOLDER = "#8762ec"
     BORDA = "#000000"
     PRIMARIA = "#0709AC"
-    PRIMARIA_HOVER = "#11627a"
-    PRIMARIA_PRESSED = "#048171"
+    PRIMARIA_HOVER = "#0709AC"
+    PRIMARIA_PRESSED = "#018547"
 
 ESTILO = f"""
 QWidget#Janela {{
