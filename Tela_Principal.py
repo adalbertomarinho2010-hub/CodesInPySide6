@@ -32,7 +32,7 @@ class TelaPrincipal(QWidget):
 
 
 
-
+        layout.addWidget(self.painel_imagem)
         layout.addWidget(email)
         layout.addWidget(telefone)
 
