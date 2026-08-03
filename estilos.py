@@ -71,4 +71,18 @@ QPushButton#LinkEsqueci {{
 QPushButton#LinkEsqueci:hover {{
     text-decoration: underline;
 }}
+
+QLabel#Email, QLabel#Telefone {{
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+}}
+
+QLabel#Imagem_perfil {{
+    background-color: white;
+    border: 4px solid white;
+    border-radius: 15px;
+    padding: 5px;
+}}
+
 """
