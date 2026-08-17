@@ -122,17 +122,17 @@ class TelaLogin(QWidget):
         layout.addWidget(self.painel_imagem, 1)
         layout.addWidget(self.formulario, 1)
 
-        #self.formulario.login_solicitado.connect(self._tentar_login)
-        #self.formulario.senha_esquecida.connect(self._Mostrar_ajuda_senha)
+        self.formulario.login_solicitado.connect(self._tentar_login)
+        self.formulario.senha_esquecida.connect(self._Mostrar_ajuda_senha)
 
-    # def _tentar_login(self, login:str, senha:str) -> None:
-    #     try:
-    #         usuario = self.autenticator.autenticar(login,senha)
-    #     except ErroAutenticacao as erro:
-    #         QMessageBox.warning(self, "Falha no Login", str(erro))
-    #         self.formulario.limpa_senha()
-    #         return
-    #     QMessageBox.information(
-    #         self, "Sucesso", f"Bem vindo," (usuario.nome_exibicao)
-    #     )
-    #     self.autenticado.emit(Usuario)
+    def _tentar_login(self, login:str, senha:str) -> None:
+         try:
+             usuario = self.autenticator.autenticar(login,senha)
+         except ErroAutenticacao as erro:
+             QMessageBox.warning(self, "Falha no Login", str(erro))
+             self.formulario.limpa_senha()
+             return
+         QMessageBox.information(
+             self, "Sucesso", f"Bem vindo," (usuario.nome_exibicao)
+         )
+         self.autenticado.emit(Usuario)
