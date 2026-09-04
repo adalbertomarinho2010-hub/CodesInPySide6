@@ -40,17 +40,17 @@ class ModeloTelaAdministrador(QMainWindow):
         menu_lateral_layout = QVBoxLayout(menu_lateral)
         menu_lateral_layout.setContentsMargins(30, 0, 0, 0)
 
-        self.btn_home = btn_layout (os.path.join(BASE, "Imagens/Painel-Principal-Icone.png"), "Painel Principal")
-        self.btn_calendario = btn_layout (os.path.join(BASE, "Imagens/Calendario-Icone.png"), "Calendário")
-        self.btn_acoes = btn_layout (os.path.join(BASE, "Imagens/Ações-Icone.png"), "Ações")
-        self.btn_empregados = btn_layout (os.path.join(BASE, "Imagens/Empregados-Icone.png"), "Empregados")
-        self.btn_validadores = btn_layout (os.path.join(BASE, "Imagens/Validadores-Icone.png"), "Validadores")
+        self.btn_home = btn_layout(os.path.join(BASE, "Imagens/Painel-Principal-Icone.png"), "Painel Principal")
+        self.btn_calendario = btn_layout(os.path.join(BASE, "Imagens/Calendario-Icone.png"), "Calendário")
+        self.btn_acoes = btn_layout(os.path.join(BASE, "Imagens/Ações-Icone.png"), "Ações")
+        self.btn_empregados = btn_layout(os.path.join(BASE, "Imagens/Empregados-Icone.png"), "Empregados")
+        self.btn_validadores = btn_layout(os.path.join(BASE, "Imagens/Validadores-Icone.png"), "Validadores")
 
-        logo_label = QLabel ()
-        logo = QPixmap (LOGO)
-        logo_certa = logo.scaled (220, 190, Qt.KeepAspectRatio, Qt.SmoothTransformation)
-        logo_label.setPixmap (logo_certa)
-        logo_label.setAlignment (Qt.AlignLeft)
+        logo_label = QLabel()
+        logo = QPixmap(LOGO)
+        logo_certa = logo.scaled(220, 190, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        logo_label.setPixmap(logo_certa)
+        logo_label.setAlignment(Qt.AlignLeft)
         
         menu_lateral_layout.addWidget(logo_label)
         menu_lateral_layout.addWidget(self.btn_home)
@@ -130,10 +130,7 @@ class ModeloTelaAdministrador(QMainWindow):
             }
         """)
 
-
-        # --- CORREÇÃO DA INTEGRAÇÃO DA TELA ---
         paginaprincipal = QFrame(self)
-        # Largura ajustada de 1600 para 1640 para fechar a tela perfeitamente (1920 - 280 = 1640)
         paginaprincipal.setGeometry(280, 70, 1640, 1010)
         paginaprincipal.setStyleSheet("""
             QFrame{
@@ -143,11 +140,9 @@ class ModeloTelaAdministrador(QMainWindow):
             }
         """)
 
-        # Agora a variável 'janela' é inserida DENTRO de 'paginaprincipal'
         janela = QWidget(paginaprincipal)
         janela.setObjectName("janela_funcionarios")
         janela.setGeometry(0, 0, 1640, 1010)
-        # Deixamos o fundo transparente para respeitar os cantos arredondados do frame branco
         janela.setStyleSheet("background-color: transparent;")
 
         layout_principal = QVBoxLayout(janela)
@@ -251,7 +246,6 @@ class ModeloTelaAdministrador(QMainWindow):
             }
         """)
 
-        # Aqui o 'for' tem 5 variáveis para desempacotar perfeitamente a sua tupla
         for linha_id, (nome, email, area, status, acao) in enumerate(dados_funcionarios):
             item_nome = QTableWidgetItem(nome)
             item_email = QTableWidgetItem(email)
