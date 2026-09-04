@@ -1,12 +1,11 @@
 import sys, os
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QStandardItemModel, QStandardItem, QPixmap
+from PySide6.QtGui import QStandardItemModel, QStandardItem, QPixmap, QColor
 from PySide6.QtWidgets import (
     QApplication, QWidget, QLabel, QLineEdit, QTextEdit, 
     QComboBox, QPushButton, QVBoxLayout, QHBoxLayout, 
-    QFrame, QFileDialog, QListView,QMainWindow, QButtonGroup, QTableWidget, QHeaderView, QTableWidgetItem, QCheckBox
+    QFrame, QFileDialog, QListView, QMainWindow, QButtonGroup, QTableWidget, QHeaderView, QTableWidgetItem, QCheckBox
 )
-from PySide6.QtGui import QColor
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, BASE_DIR)
@@ -98,7 +97,6 @@ class ModeloTelaAdministrador(QMainWindow):
                 font-size: 24px;
                 color: #ffffff;
             }
-
         """)
 
         funcao_empregado = QLabel("Administrador", cabecalho)
@@ -108,7 +106,6 @@ class ModeloTelaAdministrador(QMainWindow):
                 color: #ffffff;
                 font-size: 24px
             }
-
         """)
 
         nome_tela = QLabel("Nome da Tela", cabecalho)
@@ -119,7 +116,6 @@ class ModeloTelaAdministrador(QMainWindow):
                 font-size: 20px;
                 font-weight: lighter
             }
-
         """)
 
         botao_logout = QPushButton("Logout", cabecalho)
@@ -135,41 +131,31 @@ class ModeloTelaAdministrador(QMainWindow):
         """)
 
 
-
+        # --- CORREÇÃO DA INTEGRAÇÃO DA TELA ---
         paginaprincipal = QFrame(self)
-        paginaprincipal.setGeometry(280, 70, 1600, 1010)
+        # Largura ajustada de 1600 para 1640 para fechar a tela perfeitamente (1920 - 280 = 1640)
+        paginaprincipal.setGeometry(280, 70, 1640, 1010)
         paginaprincipal.setStyleSheet("""
             QFrame{
                 background-color: #ffffff;
                 border-top-left-radius: 20px;
                 border-top-right-radius: 20px
             }
-
         """)
 
-        titulo = QLabel("Gestão de Empregados", paginaprincipal)
-        titulo.setAlignment(Qt.AlignCenter)
-        titulo.setGeometry(820, 80, 150, 50)
-        titulo.setStyleSheet("""
-            QLabel{
-                font-size: 36px;
-
-            }
-
-        """)
-
-        janela = QWidget()
+        # Agora a variável 'janela' é inserida DENTRO de 'paginaprincipal'
+        janela = QWidget(paginaprincipal)
         janela.setObjectName("janela_funcionarios")
-        janela.setWindowTitle("Gestão de Empregados")
-        janela.resize(1920, 1080)
-        janela.setStyleSheet("background-color: #ffffffffff;")
+        janela.setGeometry(0, 0, 1640, 1010)
+        # Deixamos o fundo transparente para respeitar os cantos arredondados do frame branco
+        janela.setStyleSheet("background-color: transparent;")
 
         layout_principal = QVBoxLayout(janela)
         layout_principal.setContentsMargins(30, 30, 30, 30)
         layout_principal.setSpacing(30)
 
         titulo = QLabel("Gestão de Empregados")
-        titulo.setStyleSheet("font-size: 18px; font-weight: bold; color: #2c3e50;")
+        titulo.setStyleSheet("font-size: 24px; font-weight: bold; color: #2c3e50;")
         titulo.setAlignment(Qt.AlignCenter)
         layout_principal.addWidget(titulo)
 
@@ -188,15 +174,16 @@ class ModeloTelaAdministrador(QMainWindow):
                 background-color: #155724;
             }
         """)
+        
         btn_baixar = QPushButton("Baixar em Excel")
         btn_baixar.setStyleSheet("""
             QPushButton {
-            background-color: #fffffff;
-            color: blue;
-            font-weight: bold;
-            border-radius: 6px;
-            padding: 8px 16px;
-            border: 1px solid #d0d0d0;
+                background-color: #ffffff; 
+                color: blue;
+                font-weight: bold;
+                border-radius: 6px;
+                padding: 8px 16px;
+                border: 1px solid #d0d0d0;
             }
             QPushButton:hover {
                 background-color: #d0d0d0;
@@ -211,6 +198,8 @@ class ModeloTelaAdministrador(QMainWindow):
                 border-radius: 4px;
                 padding: 6px;
                 width: 200px;
+                color: #333333;
+                background-color: #ffffff;
             }
         """)
 
@@ -222,18 +211,18 @@ class ModeloTelaAdministrador(QMainWindow):
         layout_principal.addLayout(layout_acoes)
 
         dados_funcionarios = [
-        ("Fulano da Silva","silva@gmail.com","Pesquisador","Ativo"," "),
-        ("Fulano Ferreira", "ferreira@gmail.com", "Pesquisador", "Ativo"," "),
-        ("Fulano Araujo", "araujo@gmail.com", "Validador SIPT", "Desativado"," "),
-        ("Fulano Oliveira", "oliveira@gmail.com", "Validador SPAT", "Ativo"," "),
-        ("Fulano Leite", "leite@gmail.com", "Validador NCO", "Ativo"," "),
-        ("Fulano Da Guia", "guia@gmail.com", "Comitê", "Ativo"," "),
-        ("Fulano Jacobina", "jacobina@gmail.com", "Comitê", "Desativado"," "),
-        ("Fulano Nogueira", "nogueira@gmail.com", "Administrador", "Ativo"," "),
+            ("Fulano da Silva","silva@gmail.com","Pesquisador","Ativo"," "),
+            ("Fulano Ferreira", "ferreira@gmail.com", "Pesquisador", "Ativo"," "),
+            ("Fulano Araujo", "araujo@gmail.com", "Validador SIPT", "Desativado"," "),
+            ("Fulano Oliveira", "oliveira@gmail.com", "Validador SPAT", "Ativo"," "),
+            ("Fulano Leite", "leite@gmail.com", "Validador NCO", "Ativo"," "),
+            ("Fulano Da Guia", "guia@gmail.com", "Comitê", "Ativo"," "),
+            ("Fulano Jacobina", "jacobina@gmail.com", "Comitê", "Desativado"," "),
+            ("Fulano Nogueira", "nogueira@gmail.com", "Administrador", "Ativo"," "),
         ]
 
         tabela = QTableWidget(len(dados_funcionarios),5)
-        tabela.setHorizontalHeaderLabels(["Nome","Email","Àrea de Atuação","Status","Ação"])
+        tabela.setHorizontalHeaderLabels(["Nome","Email","Área de Atuação","Status","Ação"])
         tabela.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         tabela.verticalHeader().setVisible(False)
         tabela.setEditTriggers(QTableWidget.NoEditTriggers)
@@ -243,6 +232,7 @@ class ModeloTelaAdministrador(QMainWindow):
                 gridline-color: #e0e0e0;
                 border: 1px solid #d0d0d0;
                 border-radius: 8px;
+                color: #333333;
             }
             QHeaderView::section {
                 background-color: #366896;
@@ -254,58 +244,59 @@ class ModeloTelaAdministrador(QMainWindow):
             }
 
             QHeaderView::section:first {
-                    border-top-left-radius: 10px;
-                }
-                QHeaderView::section:last {
-                    border-top-right-radius: 10px;
-                }
+                border-top-left-radius: 10px;
+            }
+            QHeaderView::section:last {
+                border-top-right-radius: 10px;
+            }
         """)
 
-        for linha_id, (nome, email, area, status) in enumerate(dados_funcionarios):
-        item_nome = QTableWidgetItem(nome)
-        item_email = QTableWidgetItem(email)
-        item_area = QTableWidgetItem(area)
-        item_status = QTableWidgetItem(status)
+        # Aqui o 'for' tem 5 variáveis para desempacotar perfeitamente a sua tupla
+        for linha_id, (nome, email, area, status, acao) in enumerate(dados_funcionarios):
+            item_nome = QTableWidgetItem(nome)
+            item_email = QTableWidgetItem(email)
+            item_area = QTableWidgetItem(area)
+            item_status = QTableWidgetItem(status)
 
-        item_email.setTextAlignment(Qt.AlignCenter)
-        item_area.setTextAlignment(Qt.AlignCenter)
-        item_status.setTextAlignment(Qt.AlignCenter)
+            item_email.setTextAlignment(Qt.AlignCenter)
+            item_area.setTextAlignment(Qt.AlignCenter)
+            item_status.setTextAlignment(Qt.AlignCenter)
 
-        if status == "Ativo":
-            item_status.setForeground(QColor("green"))
-        else:
-            item_status.setForeground(QColor("orange"))
+            if status == "Ativo":
+                item_status.setForeground(QColor("green"))
+            else:
+                item_status.setForeground(QColor("orange"))
 
-        tabela.setItem(linha_id, 0, item_nome)
-        tabela.setItem(linha_id, 1, item_email)
-        tabela.setItem(linha_id, 2, item_area)
-        tabela.setItem(linha_id, 3, item_status)
+            tabela.setItem(linha_id, 0, item_nome)
+            tabela.setItem(linha_id, 1, item_email)
+            tabela.setItem(linha_id, 2, item_area)
+            tabela.setItem(linha_id, 3, item_status)
 
-        conteiner_botao = QWidget()
-        layout_botao = QHBoxLayout(conteiner_botao)
-        layout_botao.setContentsMargins(0,0,0,0)
-        layout_botao.setAlignment(Qt.AlignCenter)
+            conteiner_botao = QWidget()
+            layout_botao = QHBoxLayout(conteiner_botao)
+            layout_botao.setContentsMargins(0,0,0,0)
+            layout_botao.setAlignment(Qt.AlignCenter)
 
-        btn_switch = QCheckBox()
-        btn_switch.setChecked(status == "Ativo")
-        btn_switch.setCursor(Qt.PointingHandCursor)
-        btn_switch.setStyleSheet("""
-                QCheckBox::indicator {
-                    width: 38px;
-                    height: 20px;
-                    border-radius: 10px;
-                }
-                QCheckBox::indicator:unchecked {
-                    background-color: #cccccc;
-                    border: 1px solid #b0b0b0;
-                }
-                QCheckBox::indicator:checked {
-                    background-color: #366896;
-                }
-            """)
+            btn_switch = QCheckBox()
+            btn_switch.setChecked(status == "Ativo")
+            btn_switch.setCursor(Qt.PointingHandCursor)
+            btn_switch.setStyleSheet("""
+                    QCheckBox::indicator {
+                        width: 38px;
+                        height: 20px;
+                        border-radius: 10px;
+                    }
+                    QCheckBox::indicator:unchecked {
+                        background-color: #cccccc;
+                        border: 1px solid #b0b0b0;
+                    }
+                    QCheckBox::indicator:checked {
+                        background-color: #366896;
+                    }
+                """)
 
-        layout_botao.addWidget(btn_switch)
-        tabela.setCellWidget(linha_id, 4, conteiner_botao)
+            layout_botao.addWidget(btn_switch)
+            tabela.setCellWidget(linha_id, 4, conteiner_botao)
 
         layout_principal.addWidget(tabela)
 
