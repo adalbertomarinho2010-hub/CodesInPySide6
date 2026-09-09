@@ -61,7 +61,7 @@ class Calculadora(QWidget):
 
         self.digitado = "0"
         self.primeiro = None
-        self.classe = None
+        self.operacao_simbolo = None
         self.zerar = False
 
         self.conta = QLabel("")
@@ -71,6 +71,7 @@ class Calculadora(QWidget):
         self.visor = QLabel(self.digitado)
         self.visor.setObjectName("visor")
         self.visor.setAlignment(Qt.AlignRight)
+        
         grade = QGridLayout()
         botoes = [
             ("c", 0, 0), ("<", 0, 1), ("+/-", 0, 2), ("/", 0, 3),
@@ -79,6 +80,7 @@ class Calculadora(QWidget):
             ("1", 3, 0), ("2", 3, 1), ("3", 3, 2), ("+", 3, 3),
             ("0", 4, 0), (",", 4, 1), ("=", 4, 2), 
         ]
+        
         for texto, linha, coluna in botoes:
             botao = QPushButton(texto)
             largura = 2 if texto == "=" else 1
@@ -143,11 +145,10 @@ class Calculadora(QWidget):
         self.primeiro = self.valor_do_visor()
         self.operacao_simbolo = simbolo
         self.zerar = True
-
         self.conta.setText(f"{self.primeiro} {simbolo}")
 
     def calcular(self):
-        if self.primeiro is not None:
+        if self.primeiro is not None and self.operacao_simbolo is not None:
             segundo = self.valor_do_visor()
             try:
                 operacao_escolhida = OPERACOES[self.operacao_simbolo]
@@ -157,6 +158,7 @@ class Calculadora(QWidget):
                 except TypeError:
                     resultado = instancia_operacao.calcular(segundo)
                     
+                self.conta.setText(f"{self.primeiro} {self.operacao_simbolo} {segundo} =")
                 self.mostrar(resultado)
 
             except ZeroDivisionError:
@@ -164,13 +166,13 @@ class Calculadora(QWidget):
                 self.digitado = "0"
 
             self.primeiro = None
+            self.operacao_simbolo = None
             self.zerar = True
-            self.conta.setText("")
 
     def limpar(self):
         self.digitado = "0"
         self.primeiro = None
-        self.classe = None
+        self.operacao_simbolo = None
         self.zerar = False
         self.visor.setText("0")
         self.conta.setText("")
@@ -185,8 +187,6 @@ class Calculadora(QWidget):
     def inverter_sinal(self):
         numero = self.valor_do_visor() * -1
         self.mostrar(numero)
-
-    
 
 def main():
     app = QApplication(sys.argv)
