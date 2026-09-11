@@ -128,7 +128,6 @@ class ModeloTelaComite(QMainWindow):
             }
         """)
 
-        # ===== DAQUI PARA BAIXO É O CONTEÚDO NOVO =====
         janela = QWidget(paginaprincipal)
         janela.setObjectName("janela_comite")
         janela.setGeometry(0, 0, 1640, 1010)
@@ -160,7 +159,7 @@ class ModeloTelaComite(QMainWindow):
                 font-size: 16px;
             } 
         """)
-        btn_ano.addItems(["📅  2026", "2025", "2024", "2023"])
+        btn_ano.addItems(["2026", "2025", "2024", "2023"])
         btn_ano.setFixedWidth(130)
         layout_titulo.addWidget(btn_ano)
 
@@ -190,7 +189,7 @@ class ModeloTelaComite(QMainWindow):
         acoes_aprovadas.setStyleSheet("QFrame { background-color: #058914; border-radius: 15px; }")
         layout_aprovadas = QVBoxLayout(acoes_aprovadas)
         
-        titulo_aprovadas = QLabel("✓ Aprovadas")
+        titulo_aprovadas = QLabel(" Aprovadas")
         titulo_aprovadas.setStyleSheet("color: #ffffff; font-size: 18px; border: none;")
         titulo_aprovadas.setAlignment(Qt.AlignCenter)
         
@@ -221,7 +220,7 @@ class ModeloTelaComite(QMainWindow):
         acoes_analise.setStyleSheet("QFrame { background-color: #0088FF; border-radius: 15px; }")
         layout_analise = QVBoxLayout(acoes_analise)
         
-        titulo_analise = QLabel("🕒 Em análise")
+        titulo_analise = QLabel(" Em análise")
         titulo_analise.setStyleSheet("color: #ffffff; font-size: 18px; border: none;")
         titulo_analise.setAlignment(Qt.AlignCenter)
         
@@ -252,7 +251,7 @@ class ModeloTelaComite(QMainWindow):
         acoes_negadas.setStyleSheet("QFrame { background-color: #FD7B01; border-radius: 15px; }")
         layout_negadas = QVBoxLayout(acoes_negadas)
         
-        titulo_negadas = QLabel("✕ Negadas")
+        titulo_negadas = QLabel(" Negadas")
         titulo_negadas.setStyleSheet("color: #ffffff; font-size: 18px; border: none;")
         titulo_negadas.setAlignment(Qt.AlignCenter)
         
